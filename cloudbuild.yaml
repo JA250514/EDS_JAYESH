@@ -5,28 +5,12 @@ steps:
       - |-
         
         set -eo pipefail
-        
-        gcloud source repos clone test-csr3 csr_code --project=dbk-sre-streamingapi-1575
-        
-        cd csr_code/
-        git checkout master
-        git pull origin master
-        branch=$(date '+%Y%m%d%H%M%S')
-        git checkout -b $branch
-        cd ..
-        
-        cp -r /workspace/!(csr_code) /workspace/csr_code/
-        cd /workspace/csr_code/
-        
-        git config --global user.name "Cloud Build"
-        git config --global user.email "813015284617@cloudbuild.gserviceaccount.com"
-        git add .
-        git commit -m "Master branch copied"
-        git push
-        echo "Copied GIT code to Cloud Source Repo"  
+        echo "Calling Looker APIs."
+        looker_token=$(curl --request POST 'https://ncredsdev.cloud.looker.com/api/4.0/login?client_id=RhHYhp2yQhpFkWDP2MRJ&client_secret=vbzH7PQjBCtfXcYsnDJbTyyg' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
+        echo $looker_token
+        curl --request POST 'https://ncredsdev.cloud.looker.com/api/4.0/projects/eds/deploy_ref_to_production?branch' --header "Authorization: Bearer $looker_token"
+        echo "Looker APIs calls are successfully finished."  
 
     entrypoint: bash
 substitutions:
-  _PROJECT_ID: dbk-sre-streamingapi-1575
-  _TOKEN: dsds
-  _TARGET_REPO: JA250514/test_repo1
+

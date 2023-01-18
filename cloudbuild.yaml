@@ -1,17 +1,30 @@
 steps:
   - name: 'google/cloud-sdk:latest'
+    secretEnv:
+      - LOOKER_API_CLIENT_ID
+      - LOOKER_API_CLIENT_SECRET
     args:
       - '-c'
       - |-
         
         set -eo pipefail
         echo "Calling Looker APIs."
-        looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id=${_LOOKER_API_CLIENT_ID}&client_secret=${_LOOKER_API_CLIENT_SECRET}' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
+        looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id=$${LOOKER_API_CLIENT_ID}&client_secret=$${LOOKER_API_CLIENT_SECRET}' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
         echo $looker_token
         
         curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/projects/${_LOOKER_PROJECT}/deploy_ref_to_production?branch' --header "Authorization: Bearer $looker_token"
         echo "Looker APIs calls are successfully finished."  
 
     entrypoint: bash
-substitutions:
+availableSecrets:
+ secretManager:
+   - versionName: projects/${_PROJECT_NUMBER}/secrets/looker-api-client-id/versions/1
+     env: LOOKER_API_CLIENT_ID
+   - versionName: projects/${_PROJECT_NUMBER}/secrets/looker-api-client-secret/versions/1
+     env: LOOKER_API_CLIENT_SECRET
+
+
+
+
+
 

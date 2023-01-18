@@ -6,7 +6,7 @@ steps:
         
         set -eo pipefail
         echo "Calling Looker APIs."
-        looker_token=$(curl --request POST 'https://ncredsdev.cloud.looker.com/api/4.0/login?client_id=$(echo $_LOOKER_API_CLIENT_ID)&client_secret=$(echo $_LOOKER_API_CLIENT_SECRET)' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
+        looker_token=$(curl --request POST 'https://ncredsdev.cloud.looker.com/api/4.0/login?client_id="${_LOOKER_API_CLIENT_ID}"&client_secret=${_LOOKER_API_CLIENT_SECRET}' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
         echo $looker_token
         curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/projects/${_LOOKER_PROJECT}/deploy_ref_to_production?branch' --header "Authorization: Bearer $looker_token"
         echo "Looker APIs calls are successfully finished."  

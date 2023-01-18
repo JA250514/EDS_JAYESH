@@ -16,7 +16,7 @@ steps:
         echo "Looker APIs calls are successfully finished."  
 
     entrypoint: bash
-  options:
+  - options:
     logging: CLOUD_LOGGING_ONLY
 availableSecrets:
  secretManager:

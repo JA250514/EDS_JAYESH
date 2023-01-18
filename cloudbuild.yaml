@@ -16,8 +16,7 @@ steps:
         echo "Looker APIs calls are successfully finished."  
 
     entrypoint: bash
-options:
-    logging: CLOUD_LOGGING_ONLY
+logsBucket: dbk-sre-streamingapi-1575-cb-logs
 availableSecrets:
  secretManager:
    - versionName: projects/${_PROJECT_NUMBER}/secrets/looker-api-client-id/versions/1

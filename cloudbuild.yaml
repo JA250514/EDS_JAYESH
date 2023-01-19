@@ -18,7 +18,7 @@ steps:
         fi
         
         looker_response=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/projectsss/${_LOOKER_PROJECT}/deploy_ref_to_production?branch' --header "Authorization: Bearer $looker_token")
-        if [[ $looker_response == *"message"* ] || [ $looker_response == *"<HTML>"* ]]; then
+        if [ $looker_response == *"message"* ] || [ $looker_response == *"<HTML>"* ]; then
           echo "Error has occured while running Looker POST API."
           echo $looker_response
           exit 125

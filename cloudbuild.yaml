@@ -10,16 +10,16 @@ steps:
         set -eo pipefail
         echo "Calling Looker APIs."
   
-        looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id='$$LOOKER_API_CLIENT_ID'&client_secretxx='$$LOOKER_API_CLIENT_SECRET | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
+        looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id='$$LOOKER_API_CLIENT_ID'&client_secret='$$LOOKER_API_CLIENT_SECRET | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
         if [[ $looker_token == *"<html>"* ]]; then
           echo "Error has occured while obtaining the token."
           echo $looker_token
           exit 125
         fi
         
-        looker_response=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/projects/${_LOOKER_PROJECT}/deploy_ref_to_production?branch' --header "Authorization: Bearer $looker_token")
+        looker_response=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/projectsss/${_LOOKER_PROJECT}/deploy_ref_to_production?branch' --header "Authorization: Bearer $looker_token")
         if [[ $looker_response == *"Requires authentication"* ] || [ $looker_response == *"<HTML>"* ]]; then
-          echo "Error has occured while running Looker POST API"
+          echo "Error has occured while running Looker POST API."
           echo $looker_response
           exit 125
         fi

@@ -15,7 +15,7 @@ steps:
         _LOOKER_API_CLIENT_ID=$$LOOKER_API_CLIENT_ID
         _LOOKER_API_CLIENT_SECRET=$$LOOKER_API_CLIENT_SECRET
 
-        looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id=\"$(eval $$LOOKER_API_CLIENT_ID)\"&client_secret=\"$(eval $$LOOKER_API_CLIENT_SECRET)\"' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
+        looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id=$(eval "echo $$LOOKER_API_CLIENT_ID")&client_secret=$(eval "echo $$LOOKER_API_CLIENT_SECRET")' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
         echo $looker_token
         
         curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/projects/${_LOOKER_PROJECT}/deploy_ref_to_production?branch' --header "Authorization: Bearer $looker_token"

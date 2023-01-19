@@ -12,8 +12,8 @@ steps:
         echo $$LOOKER_API_CLIENT_ID
         echo $$LOOKER_API_CLIENT_SECRET
         echo "test"
-        _LOOKER_API_CLIENT_ID=$($$LOOKER_API_CLIENT_ID)
-        _LOOKER_API_CLIENT_SECRET=$($$LOOKER_API_CLIENT_SECRET)
+        _LOOKER_API_CLIENT_ID=$(echo $$LOOKER_API_CLIENT_ID)
+        _LOOKER_API_CLIENT_SECRET=$(echo $$LOOKER_API_CLIENT_SECRET)
 
         looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id=$_LOOKER_API_CLIENT_ID&client_secret=$_LOOKER_API_CLIENT_SECRET' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
         echo $looker_token

@@ -9,11 +9,9 @@ steps:
         
         set -eo pipefail
         echo "Calling Looker APIs."
-        echo $$LOOKER_API_CLIENT_ID
-        echo $$LOOKER_API_CLIENT_SECRET
+
         echo "test"
-        _LOOKER_API_CLIENT_ID=$$LOOKER_API_CLIENT_ID
-        _LOOKER_API_CLIENT_SECRET=$$LOOKER_API_CLIENT_SECRET
+
         echo curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id=$(echo $$LOOKER_API_CLIENT_ID)&client_secret=$(echo $$LOOKER_API_CLIENT_SECRET)' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/'
         echo "test2"
         looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id={$$LOOKER_API_CLIENT_ID}&client_secret={$$LOOKER_API_CLIENT_SECRET}' | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')

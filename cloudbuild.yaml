@@ -9,8 +9,7 @@ steps:
         
         set -eo pipefail
         echo "Calling Looker APIs."
-        exit 125
-        
+  
         looker_token=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/login?client_id='$$LOOKER_API_CLIENT_ID'&client_secret='$$LOOKER_API_CLIENT_SECRET | sed -e 's/{"access_token":"\(.*\)","token_type.*/\1/')
         if [[ $looker_token == *"<html>"* ]]; then
           echo "Error has occured while obtaining the token."
@@ -34,3 +33,4 @@ availableSecrets:
      env: LOOKER_API_CLIENT_ID
    - versionName: projects/${_PROJECT_NUMBER}/secrets/looker-api-client-secret/versions/1
      env: LOOKER_API_CLIENT_SECRET
+

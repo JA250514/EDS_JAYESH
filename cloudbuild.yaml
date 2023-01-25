@@ -17,7 +17,7 @@ steps:
           exit 125
         fi
         
-        looker_response=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/projects/${_LOOKER_RO_REPO}/deploy_ref_to_production?branch=${_LOOKER_RO_REPO_BRANCH}' --header "Authorization: Bearer $looker_token")
+        looker_response=$(curl --request POST 'https://${_LOOKER_INSTANCE}/api/4.0/projects/${_LOOKER_PROJECT_NAME}/deploy_ref_to_production?branch=${_LOOKER_RO_REPO_BRANCH}' --header "Authorization: Bearer $looker_token")
         echo $looker_response
         if [[ $looker_response == *"message"* || $looker_response == *"<html>"* ]]; then
           echo "Error has occured while running Looker POST API."  
@@ -33,4 +33,3 @@ availableSecrets:
      env: LOOKER_API_CLIENT_ID
    - versionName: projects/${_PROJECT_NUMBER}/secrets/looker-api-client-secret/versions/1
      env: LOOKER_API_CLIENT_SECRET
-
